@@ -38,7 +38,10 @@ class CloudConfigContext(object):
     env.globals['load_coreos_ami'] = self.load_coreos_ami_id
     env.globals['dockersystemd'] = self._dockersystemd_template
 
-  def _dockersystemd_template(self, name, container, username='', password='', tag='latest', extra_args='', command='', after_units=[], flattened=False, exec_stop_post=[]):
+  def _dockersystemd_template(self, name, container, username='', password='',
+                              tag='latest', extra_args='', command='', after_units=[],
+                              flattened=False, exec_stop_post=[], restart_policy='always'):
+
     path = os.path.join(os.path.dirname(__file__), 'templates')
     env = Environment(loader=FileSystemLoader(path), undefined=StrictUndefined)
     self.populate_jinja_environment(env)
@@ -52,7 +55,8 @@ class CloudConfigContext(object):
                            command=command,
                            after_units=after_units,
                            flattened=flattened,
-                           exec_stop_post=exec_stop_post)
+                           exec_stop_post=exec_stop_post,
+                           restart_policy=restart_policy)
 
   def new_etcd_discovery_token(self):
     """ Returns a new etcd discovery token. """

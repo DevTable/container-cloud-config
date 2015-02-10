@@ -24,7 +24,7 @@
     {%- endfor %}
 
     [Service]
-    Restart=always
+    Restart={{ restart_policy }}
     TimeoutStartSec=600
     TimeoutStopSec=2000
     {% if username and password and not flattened %}
