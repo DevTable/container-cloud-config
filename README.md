@@ -26,3 +26,12 @@ Module for helping to create cloud config for running containers
                      after_units=[],
                      flattened=True
                     ) }}
+                    
+### Flattened/Squashed Images
+
+Flattened (Squashed) images are currently only supported for repositories hosted on Quay.io.
+
+#### Precaching flattened images
+
+If `flattened=True` is used on the `dockersystemd` call, images can be precached by invoking the
+`prime_flattened_image_cache` method after the template has been invoked.
