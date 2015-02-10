@@ -32,3 +32,6 @@
     {% endif %}
     ExecStart=/usr/bin/docker run --rm {{ extra_args }} --name {{ name }} {{ container }}:{{ tag }} {{ command }}
     ExecStop=/usr/bin/docker stop {{ name }}
+    {% for stop_post in exec_stop_post -%}
+    ExecStopPost={{ stop_post }}
+    {%- endfor %}
