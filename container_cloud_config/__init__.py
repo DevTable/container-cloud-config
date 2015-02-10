@@ -4,6 +4,7 @@ Provides helper methods and templates for generating cloud config for running co
 
 from functools import partial
 
+import base64
 import os
 import requests
 import logging
