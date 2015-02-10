@@ -106,7 +106,7 @@ class CloudConfigContext(object):
     """ Primes the cache for all flattened images requested by downloading them locally. """
     logger.debug('Priming flattened image cache with %s urls',
                  len(self._flattened_urls_and_auth_strings))
-    for url, uname, passwd in flattened_urls_and_auth_strings:
+    for url, uname, passwd in self._flattened_urls_and_auth_strings:
       self._download_url(url, uname, passwd)
 
   def _download_url(self, url, username, password):
