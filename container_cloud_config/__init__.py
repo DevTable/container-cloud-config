@@ -52,7 +52,7 @@ class CloudConfigContext(object):
                            command=command,
                            after_units=after_units,
                            flattened=flattened,
-                           exec_stop_post=[])
+                           exec_stop_post=exec_stop_post)
 
   def new_etcd_discovery_token(self):
     """ Returns a new etcd discovery token. """
