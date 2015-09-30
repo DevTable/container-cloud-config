@@ -21,7 +21,7 @@
     {%- endif %}
     {% for after in after_units -%}
     After={{ after }}
-    {%- endfor %}
+    {% endfor %}
 
     [Service]
     Restart={{ restart_policy }}
@@ -34,4 +34,4 @@
     ExecStop=/usr/bin/docker stop {{ name }}
     {% for stop_post in exec_stop_post -%}
     ExecStopPost={{ stop_post }}
-    {%- endfor %}
+    {% endfor %}
