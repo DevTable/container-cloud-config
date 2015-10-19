@@ -41,7 +41,8 @@ class CloudConfigContext(object):
 
   def _dockersystemd_template(self, name, container, username='', password='',
                               tag='latest', extra_args='', command='', after_units=[],
-                              flattened=False, exec_stop_post=[], restart_policy='always'):
+                              flattened=False, exec_stop_post=[], restart_policy='always',
+                              oneshot=False, env_file=None):
 
     path = os.path.join(os.path.dirname(__file__), 'templates')
     env = Environment(loader=FileSystemLoader(path), undefined=StrictUndefined)
@@ -57,7 +58,9 @@ class CloudConfigContext(object):
                            after_units=after_units,
                            flattened=flattened,
                            exec_stop_post=exec_stop_post,
-                           restart_policy=restart_policy)
+                           restart_policy=restart_policy,
+                           oneshot=oneshot,
+                           env_file=env_file)
 
   def new_etcd_discovery_token(self):
     """ Returns a new etcd discovery token. """

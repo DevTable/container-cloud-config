@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='container-cloud-config',
-    version='0.0.1',
+    version='0.0.2',
     author="Jake Moshenko",
     author_email="jake.moshenko+pip@coreos.com",
     description="Module for helping to create cloud config for running containers",
