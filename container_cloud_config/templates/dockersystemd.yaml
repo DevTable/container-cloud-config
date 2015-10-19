@@ -24,7 +24,14 @@
     {% endfor %}
 
     [Service]
+    {% if env_file -%}
+    EnvironmentFile={{ env_file }}
+    {%- endif %}
+    {% if oneshot -%}
+    Type=oneshot
+    {% else -%}
     Restart={{ restart_policy }}
+    {%- endif %}
     TimeoutStartSec=600
     TimeoutStopSec=2000
     {% if username and password and not flattened %}
