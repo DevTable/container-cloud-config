@@ -16,6 +16,9 @@
   content: |
     [Unit]
     After=docker.service
+    {% if onfailure_units -%}
+    OnFailure={% for failure in onfailure_units -%}{{ failure }} {% endfor %}
+    {%- endif %}
     {% if flattened -%}
     After={{ name }}-image.service
     {%- endif %}
