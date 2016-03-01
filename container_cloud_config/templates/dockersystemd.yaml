@@ -41,6 +41,9 @@
     ExecStartPre=/usr/bin/docker login -u {{ username }} -p {{ password }} -e unused {{ container|registry }}
     {% endif %}
     ExecStart=/usr/bin/docker run --rm {{ extra_args }} --name {{ name }} {{ container }}:{{ tag }} {{ command }}
+    {% for start_post in exec_start_post -%}
+    ExecStartPost={{ start_post }}
+    {% endfor %}
     ExecStop=/usr/bin/docker stop {{ name }}
     {% for stop_post in exec_stop_post -%}
     ExecStopPost={{ stop_post }}
