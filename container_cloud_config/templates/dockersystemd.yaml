@@ -4,6 +4,7 @@
   content: |
     [Unit]
     After=docker.service
+    Requires=docker.service
 
     [Service]
     Type=oneshot
@@ -16,6 +17,7 @@
   content: |
     [Unit]
     After=docker.service
+    Requires=docker.service
     {% if onfailure_units -%}
     OnFailure={% for failure in onfailure_units -%}{{ failure }} {% endfor %}
     {%- endif %}
@@ -24,6 +26,9 @@
     {%- endif %}
     {% for after in after_units -%}
     After={{ after }}
+    {% endfor %}
+    {% for requires in requires_units -%}
+    Requires={{ requires }}
     {% endfor %}
 
     [Service]
@@ -44,7 +49,9 @@
     {% for start_post in exec_start_post -%}
     ExecStartPost={{ start_post }}
     {% endfor %}
+    {% if not oneshot -%}
     ExecStop=/usr/bin/docker stop {{ name }}
+    {%- endif %}
     {% for stop_post in exec_stop_post -%}
     ExecStopPost={{ stop_post }}
     {% endfor %}
