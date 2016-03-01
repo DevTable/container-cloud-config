@@ -41,8 +41,9 @@ class CloudConfigContext(object):
 
   def _dockersystemd_template(self, name, container, username='', password='',
                               tag='latest', extra_args='', command='', after_units=[],
-                              flattened=False, exec_stop_post=[], restart_policy='always',
-                              oneshot=False, env_file=None, onfailure_units=[]):
+                              flattened=False, exec_start_post=[], exec_stop_post=[],
+                              restart_policy='always', oneshot=False, env_file=None,
+                              onfailure_units=[]):
 
     path = os.path.join(os.path.dirname(__file__), 'templates')
     env = Environment(loader=FileSystemLoader(path), undefined=StrictUndefined)
@@ -58,6 +59,7 @@ class CloudConfigContext(object):
                            after_units=after_units,
                            flattened=flattened,
                            onfailure_units=onfailure_units,
+                           exec_start_post=exec_start_post,
                            exec_stop_post=exec_stop_post,
                            restart_policy=restart_policy,
                            oneshot=oneshot,
