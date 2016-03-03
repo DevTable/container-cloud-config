@@ -43,7 +43,7 @@ class CloudConfigContext(object):
                               tag='latest', extra_args='', command='', after_units=[],
                               flattened=False, exec_start_post=[], exec_stop_post=[],
                               restart_policy='always', oneshot=False, env_file=None,
-                              onfailure_units=[], requires_units=[]):
+                              onfailure_units=[], requires_units=[], wants_units=[]):
 
     path = os.path.join(os.path.dirname(__file__), 'templates')
     env = Environment(loader=FileSystemLoader(path), undefined=StrictUndefined)
@@ -58,6 +58,7 @@ class CloudConfigContext(object):
                            command=command,
                            after_units=after_units,
                            requires_units=requires_units,
+                           wants_units=wants_units,
                            flattened=flattened,
                            onfailure_units=onfailure_units,
                            exec_start_post=exec_start_post,
