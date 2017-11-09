@@ -46,7 +46,7 @@
     TimeoutStartSec=600
     TimeoutStopSec=2000
     {% if username and password and not flattened %}
-    ExecStartPre=/usr/bin/docker login -u {{ username }} -p {{ password }} -e unused {{ container|registry }}
+    ExecStartPre=/usr/bin/docker login -u {{ username }} -p {{ password }} {{ container|registry }}
     {% endif %}
     ExecStart=/usr/bin/docker run --rm {{ extra_args }} --name {{ name }} {{ container }}:{{ tag }} {{ command }}
     {% for start_post in exec_start_post -%}
