@@ -43,7 +43,9 @@ class CloudConfigContext(object):
                               tag='latest', extra_args='', command='', after_units=[],
                               flattened=False, exec_start_post=[], exec_stop_post=[],
                               restart_policy='always', oneshot=False, env_file=None,
-                              onfailure_units=[], requires_units=[], wants_units=[]):
+                              onfailure_units=[], requires_units=[], wants_units=[],
+                              timeout_start_sec=None, timeout_stop_sec=None,
+                              autostart=True):
 
     path = os.path.join(os.path.dirname(__file__), 'templates')
     env = Environment(loader=FileSystemLoader(path), undefined=StrictUndefined)
@@ -65,6 +67,9 @@ class CloudConfigContext(object):
                            exec_stop_post=exec_stop_post,
                            restart_policy=restart_policy,
                            oneshot=oneshot,
+                           autostart=autostart,
+                           timeout_start_sec=timeout_start_sec,
+                           timeout_stop_sec=timeout_stop_sec,
                            env_file=env_file)
 
   def new_etcd_discovery_token(self):
