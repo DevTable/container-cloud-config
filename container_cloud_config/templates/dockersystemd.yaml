@@ -1,6 +1,8 @@
 {% if flattened -%}
 - name: {{ name }}-image.service
+  {% if autostart|default(true) -%}
   command: start
+  {% endif %}
   content: |
     [Unit]
     After=docker.service
@@ -13,7 +15,9 @@
     ExecStart=/usr/bin/bash -c '/usr/bin/curl -s -f -L {{ flattened_url(container, tag, username, password) }} | /home/core/importas {{ container }} {{ tag }} | docker load'
 {%- endif %}
 - name: {{ name }}.service
+  {% if autostart|default(true) -%}
   command: start
+  {% endif %}
   content: |
     [Unit]
     After=docker.service
@@ -43,8 +47,8 @@
     {% else -%}
     Restart={{ restart_policy }}
     {%- endif %}
-    TimeoutStartSec=600
-    TimeoutStopSec=2000
+    TimeoutStartSec={{ timeout_start_sec|default(600) }}
+    TimeoutStopSec={{ timeout_stop_sec|default(2000) }}
     {% if username and password and not flattened %}
     ExecStartPre=/usr/bin/docker login -u {{ username }} -p {{ password }} {{ container|registry }}
     {% endif %}
