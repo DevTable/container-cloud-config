@@ -8,7 +8,14 @@ import base64
 import os
 import requests
 import logging
-import urllib2
+try:
+  # Python 3
+  from urllib.request import HTTPRedirectHandler, build_opener, install_opener, urlopen, Request
+  from urllib.error import HTTPError
+except ImportError:
+  # Python 2
+  from urllib2 import HTTPRedirectHandler, build_opener, install_opener, urlopen, Request, HTTPError
+
 from jinja2 import FileSystemLoader, Environment, StrictUndefined
 
 logger = logging.getLogger(__name__)
@@ -18,10 +25,10 @@ COREOS_STACK_URL = 'http://{0}.release.core-os.net/amd64-usr/current/coreos_prod
 FLAT_IMAGE_URL = 'https://{0}{1}/c1/squash{2}/{3}'
 CHUNK_SIZE = 10 * 1024
 
-class _PreventedRedirectException(urllib2.HTTPError):
+class _PreventedRedirectException(HTTPError):
   pass
 
-class _PreventRedirects(urllib2.HTTPRedirectHandler):
+class _PreventRedirects(HTTPRedirectHandler):
   def redirect_request(self, req, fp, code, msg, hdrs, newurl):
     raise _PreventedRedirectException(newurl, code, 'Prevented redirect', hdrs, fp)
 
@@ -127,16 +134,16 @@ class CloudConfigContext(object):
     """ Downloads the given URL. """
     logger.debug('Downloading url: %s', url)
 
-    opener = urllib2.build_opener(_PreventRedirects)
-    urllib2.install_opener(opener)
+    opener = build_opener(_PreventRedirects)
+    install_opener(opener)
 
-    req = urllib2.Request(url)
+    req = Request(url)
     if username and password:
       auth_string = ':'.join([username, password])
       req.add_unredirected_header('Authorization', 'Basic %s' % base64.b64encode(auth_string))
 
     try:
-      flattened = urllib2.urlopen(req)
+      flattened = urlopen(req)
     except _PreventedRedirectException:
       logger.debug('Redirect indicates that URL is already cached.')
       return
